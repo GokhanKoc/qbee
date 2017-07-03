@@ -10,6 +10,7 @@ import {
   View,
   Dimensions
 } from 'react-native';
+import { FormInput, Button } from 'react-native-elements';
 
 
 export default class extends Component {
@@ -53,16 +54,22 @@ export default class extends Component {
                 style={styles.backgroundImage}>
                 <View style={styles.content}>
                   {error}
-                  <TextInput
+                  <FormInput
+                    ref='forminput'
+                    textInputRef='email'
                     style={styles.input}
                     onChangeText={this.onMailChange}
                     onFocus={this.onItemFocus}
                     value={this.state.email}
                     placeholder="email"
                   />
-                  <TouchableOpacity style={styles.submitButton} onPress={this.sendPasswordRequest}>
-                    <Text style={styles.submitText}>SEND ME</Text>
-                  </TouchableOpacity>
+                  <Button
+                    buttonStyle={styles.submitButton}
+                    textStyle={{textAlign: 'center'}}
+                    title={`SEND ME`}
+                    onPress={this.sendPasswordRequest}
+                  />
+
                 </View>
               </Image>
 

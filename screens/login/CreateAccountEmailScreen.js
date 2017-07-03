@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../../actions'
 
+import { FormInput, Button } from 'react-native-elements';
+
 
 class CreateAccountEmailScreen extends Component {
 
@@ -67,26 +69,36 @@ class CreateAccountEmailScreen extends Component {
               style={styles.backgroundImage}>
               <View style={styles.bottom}>
 
-                <TextInput
+                <FormInput
+                  ref='forminput'
+                  textInputRef='email'
                   onChangeText={this.onEmailNameChange}
                   style={styles.input}
                   placeholder="email address"
                 />
-                <TextInput
+                <FormInput
+                  ref='forminput'
+                  textInputRef='password'
                   onChangeText={this.onFirstPassChange}
                   style={styles.input}
                   secureTextEntry={true}
                   placeholder="password"
                 />
-                <TextInput
+                <FormInput
+                  ref='forminput'
+                  textInputRef='passwordAgain'
                   onChangeText={this.onSecondPassChange}
                   style={styles.input}
                   secureTextEntry={true}
                   placeholder="password again"
                 />
-                <TouchableOpacity onPress={this.handleSubmit} style={styles.button}>
-                  <Text style={styles.submitButtonText}>CREATE</Text>
-                </TouchableOpacity>
+                <Button
+                  buttonStyle={styles.button}
+                  textStyle={{textAlign: 'center'}}
+                  title={`CREATE`}
+                  onPress={this.handleSubmit}
+                />
+
 
               </View>
             </Image>

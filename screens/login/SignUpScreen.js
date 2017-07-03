@@ -14,11 +14,7 @@ import { ActionCreators } from '../../actions'
 import { AsyncStorage } from 'react-native';
 import * as firebase from 'firebase';
 
-
-// const FBSDK = require('react-native-fbsdk');
-// const {
-//     LoginButton
-//   } = FBSDK;
+import { SocialIcon, Button } from 'react-native-elements';
 
 
 class SignUpScreen extends Component {
@@ -120,15 +116,28 @@ class SignUpScreen extends Component {
               style={styles.backgroundImage}>
               <View style={styles.container}>
                 <View style={styles.bottom}>
-                  <TouchableOpacity style={[styles.facebookButton, styles.button]} onPress={this.facebookLogin} >
-                    <Text style={styles.facebookButtonText}>CONTINUE WITH FACEBOOK</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={[styles.facebookButton, styles.button]} onPress={this.googleLogin}>
-                    <Text style={styles.facebookButtonText}>CONTINUE WITH GOOGLE</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={[styles.button]} onPress={this.createAccountWithEmail}>
-                    <Text style={styles.signUpButtonText}>CREATE ACCOUNT</Text>
-                  </TouchableOpacity>
+
+                  <SocialIcon
+                    title='Sign In With Facebook'
+                    button
+                    type='facebook'
+                    onPress={this.facebookLogin}
+                    buttonStyle= { styles.facebookButton }
+                  />
+                  <SocialIcon
+                    title='Sign In With Google'
+                    button
+                    type='google-plus-official'
+                    onPress={this.googleLogin}
+                    buttonStyle= { styles.facebookButton }
+                  />
+                  <Button
+                    buttonStyle={{backgroundColor: 'red', borderRadius: 20}}
+                    textStyle={{textAlign: 'center'}}
+                    title={`CREATE ACCOUNT`}
+                    onPress={this.createAccountWithEmail}
+                  />
+
                   <View style={styles.separationContainer}>
                     <View style={styles.divider}/>
                     <View style={styles.dividerCenter}>
@@ -136,12 +145,19 @@ class SignUpScreen extends Component {
                     </View>
                     <View style={styles.divider}/>
                   </View>
-                  <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={this.loginWithEmail} >
-                    <Text style={styles.loginButtonText}>LOGIN</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={this.logOut} >
-                    <Text style={styles.loginButtonText}>LOGOUT</Text>
-                  </TouchableOpacity>
+
+                  <Button
+                    buttonStyle={[styles.button, styles.loginButton]}
+                    textStyle={{textAlign: 'center'}}
+                    title={`LOGIN`}
+                    onPress={this.loginWithEmail}
+                  />
+                  <Button
+                    buttonStyle={[styles.button, styles.loginButton]}
+                    textStyle={{textAlign: 'center'}}
+                    title={`LOGOUT`}
+                    onPress={this.logOut}
+                  />
                 </View>
               </View>
             </Image>
@@ -176,25 +192,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'stretch',
         flexDirection: "column"
-    },
-    facebookButtonText: {
-        fontSize: 20,
-        color: "#3b5998",
-        textAlign: 'center',
-        fontWeight: 'bold',
-        margin: 10
-    },
-    signUpButtonText: {
-        fontSize: 20,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        margin: 10
-    },
-    loginButtonText: {
-        fontSize: 20,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        margin: 10
     },
     bottom: {
         flex: 1,
@@ -246,10 +243,5 @@ const styles = StyleSheet.create({
     dividerText: {
         fontWeight: 'bold',
         fontSize: 20
-    },
-    termsOfServiceText: {
-        margin: 10,
-        fontSize: 10,
-        fontWeight: 'bold'
     }
 });

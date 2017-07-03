@@ -17,6 +17,7 @@ import {
   Platform,
   Dimensions
 } from 'react-native';
+import { FormInput, Button } from 'react-native-elements';
 
 
 class LoginWithEmailScreen extends Component {
@@ -73,16 +74,20 @@ class LoginWithEmailScreen extends Component {
                 style={styles.backgroundImage}>
                 <View style={styles.bottom}>
                   <View style={styles.form}>
-                    <TextInput
+
+                    <FormInput
+                      ref='forminput'
+                      textInputRef='email'
                       style={styles.input}
                       onChangeText={this.onMailChange}
                       onFocus={this.onItemFocus}
                       value={this.state.email}
                       keyboardType="email-address"
                       placeholder="email"
-
                     />
-                    <TextInput
+                    <FormInput
+                      ref='forminput'
+                      textInputRef='email'
                       style={styles.input}
                       onChangeText={this.onPasswordChange}
                       onFocus={this.onItemFocus}
@@ -90,12 +95,19 @@ class LoginWithEmailScreen extends Component {
                       placeholder="password"
                       secureTextEntry={true}
                     />
-                    <TouchableOpacity style={styles.submitButton} onPress={this.loginWithEmail}>
-                      <Text style={styles.submitText}>Sign in</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('forgotEmail')} style={styles.forgotPasswordButton}>
-                      <Text style={styles.forgotPasswordText}>FORGOT PASSWORD?</Text>
-                    </TouchableOpacity>
+                    <Button
+                      buttonStyle={styles.submitButton}
+                      textStyle={{textAlign: 'center'}}
+                      title={`SIGN IN`}
+                      onPress={this.loginWithEmail}
+                    />
+                    <Button
+                      buttonStyle={styles.forgotPasswordButton}
+                      textStyle={{textAlign: 'center'}}
+                      title={`FORGOT PASSWORD?`}
+                      onPress={() => this.props.navigation.navigate('forgotEmail')}
+                    />
+                    
                   </View>
                 </View>
 
