@@ -1,6 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../../actions'
 
 import {
   AppRegistry,
@@ -16,7 +19,7 @@ import {
 } from 'react-native';
 
 
-export default class extends Component {
+class LoginWithEmailScreen extends Component {
 
     constructor(props){
         super(props);
@@ -52,16 +55,14 @@ export default class extends Component {
     }
 
     loginWithEmail = () => {
-        if(!this.validateForm){
-            this.setState({errorMessage: "Please fill in all the fields"});
-            return;
-        }
-        this.props.authWithPassword({password: this.state.password, email: this.state.email}
-            ,  (error) => {
-            this.setState({errorMessage: error});
-        },(successCallback) => {
-            this.props.navigator.push({name: 'final', onSubmit: successCallback})
-        });
+
+      if(!this.validateForm){
+          this.setState({errorMessage: "Please fill in all the fields"});
+          return;
+      }
+
+      this.props.emailLogin(this.state.email, this.state.password);
+      this.props.navigation.navigate('home')
     }
 
     render() {
@@ -103,6 +104,16 @@ export default class extends Component {
         );
     }
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginWithEmailScreen);
 
 const styles = StyleSheet.create({
     container: {

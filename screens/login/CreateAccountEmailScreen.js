@@ -8,36 +8,53 @@ import {
   TouchableOpacity,
   TextInput } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../../actions'
+
 
 class CreateAccountEmailScreen extends Component {
 
 
+  constructor(props) {
+      super(props);
+      this.state = {
+          email: ""
+      }
+  }
 
 
   onEmailNameChange = (text) => {
     console.log("onEmailNameChange");
+    this.setState({email: text});
   }
 
   onFirstPassChange = (text) => {
     console.log("onFirstPassChange");
+    this.setState({firstPass: text});
   }
 
 
   onSecondPassChange = (text) => {
     console.log("onSecondPassChange");
+    this.setState({secondPass: text});
   }
 
   validateForm() {
     //Validation works
+    return true;
   }
 
   registerUserByEmailAndPassword() {
     //CALL REGISTER USER BY EMAIL
+    this.props.createAccountWithEmail(this.state.email, this.state.firstPass);
+
   }
 
   handleSubmit = () => {
 
       if (this.validateForm()) {
+          console.log("Email ile login olma başlasın.....");
           this.registerUserByEmailAndPassword();
       }
   }
@@ -78,6 +95,17 @@ class CreateAccountEmailScreen extends Component {
   }
 
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateAccountEmailScreen);
+
 
 const styles = StyleSheet.create({
     container: {
@@ -127,5 +155,3 @@ const styles = StyleSheet.create({
         margin: 10
     }
 });
-
-export default CreateAccountEmailScreen;

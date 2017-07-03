@@ -7,18 +7,54 @@ import {
   Dimensions,
   TouchableOpacity } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../../actions'
+
+import { AsyncStorage } from 'react-native';
+import * as firebase from 'firebase';
+
+
+// const FBSDK = require('react-native-fbsdk');
+// const {
+//     LoginButton
+//   } = FBSDK;
+
 
 class SignUpScreen extends Component {
 
+
+  // TODO Facebook login halledilmeli
   facebookLogin = () => {
-    // FACEBOOK LOGIN
-    console.log("FACEBOOK LOGIN");
+
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+        // User is signed in.
+        console.log("ALREADY LOGGEDIN");
+        console.log(user);
+    } else {
+        // No user is signed in.
+        console.log("FACEBOOK LOGIN");
+        this.props.facebookLogin();
+    }
+
   }
 
+  //TODO Google login halledilmeli
+  googleLogin = async () => {
 
-  googleLogin = () => {
-    // GOOGLE LOGIN
-    console.log("GOOGLE LOGIN");
+    // Eger AuthData varsa kullanıcı zaten loggedIn durumda demektir.
+    let authData = await AsyncStorage.getItem(asyncStorageConstants.AUTH_DATA)
+
+    if (!authData) {
+      // GOOGLE LOGIN
+      console.log("GOOGLE LOGIN");
+      this.props.googleLogin();
+    } else {
+      console.log("ALREADY LOGGEDIN");
+    }
+
   }
 
 
@@ -31,9 +67,48 @@ class SignUpScreen extends Component {
 
   loginWithEmail = () => {
     // LOGIN WITH EMAIL
-    console.log("LOGIN WITH EMAIL");
-    this.props.navigation.navigate('loginWithEmail');
+    var user = firebase.auth().currentUser;
 
+    if (user) {
+        // User is signed in.
+        console.log("ALREADY LOGGEDIN");
+        console.log(user);
+    } else {
+        // No user is signed in.
+        console.log("LOGIN WITH EMAIL");
+        this.props.navigation.navigate('loginWithEmail');
+    }
+
+  }
+
+
+
+  logOut = () => {
+      // LOGIN WITH EMAIL
+      console.log("LOGOUT");
+      firebase.auth().signOut().then(function() {
+
+        // Sign-out successful.
+        this.props.dispatchLogOut();
+        AsyncStorage.removeItem(asyncStorageConstants.AUTH_DATA);
+
+      }).catch(function(error) {
+        // An error happened.
+        console.log("Logout Failed!", error.code,error.message);
+      });
+
+  }
+
+
+
+  componentWillReceiveProps(nextProps) {
+    this.onAuthComplete(nextProps);
+  }
+
+  onAuthComplete (props) {
+    if (props.token) {
+      this.props.navigation.navigate('home');
+    }
   }
 
 
@@ -64,7 +139,9 @@ class SignUpScreen extends Component {
                   <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={this.loginWithEmail} >
                     <Text style={styles.loginButtonText}>LOGIN</Text>
                   </TouchableOpacity>
-
+                  <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={this.logOut} >
+                    <Text style={styles.loginButtonText}>LOGOUT</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </Image>
@@ -72,6 +149,17 @@ class SignUpScreen extends Component {
       );
   }
 }
+
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps({ auth }) {
+  return { token: auth.token };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -165,5 +253,3 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
-
-export default SignUpScreen;

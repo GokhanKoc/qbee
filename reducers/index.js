@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
-import auth from './auth_reducer';
+import auth from './auth';
+import cards from './cards';
+import chats from './cards';
+
+
 
 export default combineReducers({
-  auth
+  auth, cards, chats
 });

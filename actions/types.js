@@ -1,2 +1,27 @@
-export const FACEBOOK_LOGIN_SUCCESS = 'facebook_login_success';
-export const FACEBOOK_LOGIN_FAIL = 'facebook_login_fail';
+
+// AUTH
+export const INIT_AUTH ='INIT_AUTH'
+export const AUTH_LOG_OUT = 'AUTH_LOG_OUT'
+export const SET_PROFILE = 'SET_PROFILE'
+export const UPDATE_PROFILE = 'UPDATE_PROFILE'
+
+
+export const FACEBOOK_LOGIN_SUCCESS = 'FACEBOOK_LOGIN_SUCCESS'
+export const FACEBOOK_LOGIN_FAIL = 'FACEBOOK_LOGIN_FAIL'
+export const GOOGLE_LOGIN_SUCCESS = 'GOOGLE_LOGIN_SUCCESS'
+export const GOOGLE_LOGIN_FAIL = 'GOOGLE_LOGIN_FAIL'
+export const EMAIL_LOGIN_SUCCESS = 'EMAIL_LOGIN_SUCCESS'
+export const EMAIL_LOGIN_FAIL = 'EMAIL_LOGIN_FAIL'
+
+
+//CARDS
+export const INIT_CARDS = 'INIT_ALL_CARDS'
+export const ADD_CARD = 'ADD_CARD'
+export const DELETE_CARD = 'DELETE_CARD'
+export const UPDATE_CARD = 'UPDATE_CARD'
+
+
+//chat
+export const INIT_CHAT = 'INIT_CHAT'
+export const CLEAR_CHAT = 'CLEAR_CHAT'
+export const ADD_MESSAGE = 'ADD_MESSAGE'
