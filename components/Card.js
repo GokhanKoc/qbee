@@ -23,26 +23,26 @@ export default class extends Component {
     }
 
     getInfoLabel(){
-        var today = moment();
-        var dueDate = moment(this.props.card.dueDate, 'X');
-        var hoursLeft = dueDate.diff(today, 'hours');
-        if(hoursLeft < 24) return <Text style={styles.warningText}>Last Day</Text>;
-        if(this.props.card.itemsCount === 1) return <Text style={styles.warningText}>Last Item!</Text>;
+        // var today = moment();
+        // var dueDate = moment(this.props.card.dueDate, 'X');
+        // var hoursLeft = dueDate.diff(today, 'hours');
+        // if(hoursLeft < 24) return <Text style={styles.warningText}>Last Day</Text>;
+        // if(this.props.card.itemsCount === 1) return <Text style={styles.warningText}>Last Item!</Text>;
         return null;
     }
 
     render(){
         return (
             <TouchableOpacity onPress={this.onPress.bind(this)} style={styles.container}>
-                <Image style={styles.backgroundImage}
-                    source={{uri: this.props.card.cardPhoto}}>
-                </Image>
-                <View style={styles.infoLabel}>
-                    <View style={styles.warningLabel}>
-                        {this.getInfoLabel.bind(this)()}
-                    </View>
-                    <Text style={styles.priceText}>{this.props.card.price}$</Text>
+              {/* <Image style={styles.backgroundImage}
+                source={{uri: this.props.card.cardPhoto}}>
+              </Image> */}
+              <View style={styles.infoLabel}>
+                <View style={styles.warningLabel}>
+                  {this.getInfoLabel.bind(this)()}
                 </View>
+                <Text style={styles.priceText}>{this.props.card.price}$</Text>
+              </View>
             </TouchableOpacity>
         );
     }

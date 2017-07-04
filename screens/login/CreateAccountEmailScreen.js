@@ -113,7 +113,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({ auth }) {
-  return { token: auth.token };
+  return { auth };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateAccountEmailScreen);

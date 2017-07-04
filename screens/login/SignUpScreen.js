@@ -12,6 +12,8 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../../actions'
 
 import { AsyncStorage } from 'react-native';
+import * as asyncStorageConstants from '../../constants/asyncStorageConstants'
+
 import * as firebase from 'firebase';
 
 import { SocialIcon, Button } from 'react-native-elements';
@@ -20,7 +22,6 @@ import { SocialIcon, Button } from 'react-native-elements';
 class SignUpScreen extends Component {
 
 
-  // TODO Facebook login halledilmeli
   facebookLogin = () => {
 
     var user = firebase.auth().currentUser;
@@ -28,11 +29,13 @@ class SignUpScreen extends Component {
     if (user) {
         // User is signed in.
         console.log("ALREADY LOGGEDIN");
-        console.log(user);
+        this.props.navigation.navigate('home');
+
     } else {
         // No user is signed in.
         console.log("FACEBOOK LOGIN");
         this.props.facebookLogin();
+
     }
 
   }
@@ -69,6 +72,8 @@ class SignUpScreen extends Component {
         // User is signed in.
         console.log("ALREADY LOGGEDIN");
         console.log(user);
+        this.props.navigation.navigate('home');
+
     } else {
         // No user is signed in.
         console.log("LOGIN WITH EMAIL");
@@ -80,29 +85,25 @@ class SignUpScreen extends Component {
 
 
   logOut = () => {
-      // LOGIN WITH EMAIL
-      console.log("LOGOUT");
-      firebase.auth().signOut().then(function() {
 
-        // Sign-out successful.
-        this.props.dispatchLogOut();
-        AsyncStorage.removeItem(asyncStorageConstants.AUTH_DATA);
+    // LOGIN WITH EMAIL
+    console.log("LOGOUT");
 
-      }).catch(function(error) {
-        // An error happened.
-        console.log("Logout Failed!", error.code,error.message);
-      });
+    firebase.auth().signOut().then(() => {
+      console.log('Signed Out');
+      this.props.dispatchLogOut();
 
+    }, function(error) {
+      console.log("Logout Failed!", error);
+    });
   }
-
-
 
   componentWillReceiveProps(nextProps) {
     this.onAuthComplete(nextProps);
   }
 
   onAuthComplete (props) {
-    if (props.token) {
+    if (props.auth.uid) {
       this.props.navigation.navigate('home');
     }
   }
@@ -172,7 +173,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({ auth }) {
-  return { token: auth.token };
+  return { auth };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);

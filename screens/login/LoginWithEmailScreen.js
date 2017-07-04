@@ -107,7 +107,7 @@ class LoginWithEmailScreen extends Component {
                       title={`FORGOT PASSWORD?`}
                       onPress={() => this.props.navigation.navigate('forgotEmail')}
                     />
-                    
+
                   </View>
                 </View>
 
@@ -122,7 +122,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({ auth }) {
-  return { token: auth.token };
+  return { auth };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginWithEmailScreen);

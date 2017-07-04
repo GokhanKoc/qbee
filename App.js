@@ -12,7 +12,6 @@ import SettingsScreen from './screens/SettingsScreen';
 
 
 // LOGIN Related Pages
-import AuthScreen from './screens/login/AuthScreen';
 import SignUpScreen from './screens/login/SignUpScreen';
 import CreateAccountEmailScreen from './screens/login/CreateAccountEmailScreen';
 import LoginWithEmailScreen from './screens/login/LoginWithEmailScreen';
@@ -29,7 +28,6 @@ export default class App extends React.Component {
 
     const MainNavigator = TabNavigator ({
       welcome: { screen: WelcomeScreen },
-      auth: { screen: AuthScreen },
       signup: { screen: SignUpScreen },
       createAccount: { screen: CreateAccountEmailScreen },
       loginWithEmail: { screen: LoginWithEmailScreen },

@@ -4,27 +4,24 @@ import {
   GOOGLE_LOGIN_SUCCESS,
   GOOGLE_LOGIN_FAIL,
   EMAIL_LOGIN_SUCCESS,
-  EMAIL_LOGIN_FAIL,
-  AUTH_LOG_OUT
+  EMAIL_LOGIN_FAIL
 } from '../actions/types';
 
 
 export default function(state = {},action) {
   switch (action.type) {
     case FACEBOOK_LOGIN_SUCCESS:
-      return { auth: action.payload };
+      return action.payload ;
     case FACEBOOK_LOGIN_FAIL:
-      return { auth: null };
+      return {} ;
     case GOOGLE_LOGIN_SUCCESS:
-      return { auth: action.payload };
+      return action.payload ;
     case GOOGLE_LOGIN_FAIL:
-      return { auth: null };
+      return {} ;
     case EMAIL_LOGIN_SUCCESS:
-      return { auth: action.payload };
+      return action.payload ;
     case EMAIL_LOGIN_FAIL:
-      return { auth: null };
-    case AUTH_LOG_OUT:
-      return { auth: null };
+      return {} ;
     default:
       return state;
   }

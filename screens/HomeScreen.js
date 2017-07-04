@@ -11,10 +11,13 @@ import {
 } from 'react-native';
 import Card from '../components/Card'
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../actions'
 //Firebase Related
 import * as firebase from 'firebase';
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
 
   firebaseDatabase = firebase.database();
 
@@ -34,9 +37,10 @@ export default class HomeScreen extends Component {
         cardsSnapshot.forEach( childSnapshot => {
 
           var child = childSnapshot.val();
-          if (child.user != this.props.authData.uid ) {
-            cards.push(child);
-          }
+          // if (child.user != this.props.auth.uid ) {
+          //   cards.push(child);
+          // }
+          cards.push(child);
         });
         this.props.initCards(cards);
       },
@@ -48,28 +52,51 @@ export default class HomeScreen extends Component {
     }
 
 
-    // checkChatsCards(){
-    //     var userChats = this.props.authData.chats;
-    //     if(!userChats) return;
-    //     for(var cardKey in userChats){
-    //         this.firebaseDatabase.ref('cards/').child(cardKey).once('value', (card) => {
-    //                 if(!card.val()){
-    //                     this.firebaseDatabase.ref('users').child(this.props.authData.uid)
-    //                         .child('chats')
-    //                         .child(cardKey)
-    //                         .remove();
-    //                 }
-    //             })
-    //     }
-    // }
-    //
-    //
-    // updateCard(snapshot, prevKey){
-    //     var card = {};
-    //     card[snapshot.key] = snapshot.val();
-    //     this.props.addCard(card);
-    // }
+    checkChatsCards(){
+        var userChats = this.props.auth.chats;
+        if(!userChats) return;
+        for(var cardKey in userChats){
+            this.firebaseDatabase.ref('cards/').child(cardKey).once('value', (card) => {
+                    if(!card.val()){
+                        this.firebaseDatabase.ref('users').child(this.props.auth.uid)
+                            .child('chats')
+                            .child(cardKey)
+                            .remove();
+                    }
+                })
+        }
+    }
 
+
+    updateCard(snapshot, prevKey){
+        var card = {};
+        card[snapshot.key] = snapshot.val();
+        this.props.addCard(card);
+    }
+
+
+    renderCards() {
+
+
+      console.log(this.props.cards);
+      return this.props.cards.map((item, i) => {
+
+        return (
+          <Card
+            key={item}
+            card={this.props.cards[item]}
+          >
+          </Card>
+        );
+      }).reverse();
+    }
+
+
+    // {Object.keys(this.props.cards).map((item, i) => {
+    //   return (
+    //     <Card key={item} cardKey={item} navigator={this.props.navigator} card={this.props.cards[item]}/>
+    //   );
+    // })}
 
     render() {
         return (
@@ -77,7 +104,6 @@ export default class HomeScreen extends Component {
 
               <ScrollView style={styles.scrollView}>
                 <View style={styles.cardsList}>
-                  {/* // Card list gelmeli buraya */}
                 </View>
               </ScrollView>
               <TouchableOpacity onPress={ () => this.props.navigation.navigate('itemSale') } style={styles.sellButton}>
@@ -89,6 +115,19 @@ export default class HomeScreen extends Component {
     }
 
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+    cards: state.cards
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 var platformOffset = Platform.OS === 'ios' ? 0 : 10;
 

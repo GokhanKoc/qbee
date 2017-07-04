@@ -11,7 +11,7 @@ import {
   GOOGLE_LOGIN_FAIL,
   EMAIL_LOGIN_SUCCESS,
   EMAIL_LOGIN_FAIL,
-  AUTH_LOG_OUT,
+  USER_LOGOUT
 } from './types';
 
 
@@ -28,19 +28,11 @@ export const logout = (my_params) => (dispatch) => {
 
 
 export const facebookLogin = () => async dispatch => {
-  let token = await AsyncStorage.getItem('fb_token');
-
-  if (token) {
-    // Dispatch an action saying FB login is done
-    dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
-  } else {
-    // Start up FB Login process
     doFacebookLogin(dispatch);
-  }
 };
 
 const doFacebookLogin = async dispatch => {
-  let { type, token } = await Facebook.logInWithReadPermissionsAsync('19415382104', {
+  let { type, token } = await Facebook.logInWithReadPermissionsAsync('106342363328221', {
     permissions: ['public_profile']
   });
 
@@ -48,8 +40,24 @@ const doFacebookLogin = async dispatch => {
     return dispatch({ type: FACEBOOK_LOGIN_FAIL });
   }
 
-  await AsyncStorage.setItem(asyncStorageConstants.AUTH_DATA, result);
-  dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
+  if (type === 'success') {
+    // Build Firebase credential with the Facebook access token.
+    const credential = firebase.auth.FacebookAuthProvider.credential(token);
+
+    // Sign in with credential from the Facebook user.
+    firebase.auth().signInWithCredential(credential).then((user) => {
+
+      return dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: user });
+
+    }).catch((error) => {
+      // Handle Errors here.
+      console.log(error);
+      return dispatch({ type: FACEBOOK_LOGIN_FAIL });
+    });
+
+  }
+
+
 };
 
 
@@ -142,19 +150,6 @@ export const emailLogin = (email,password) => async dispatch => {
 
 
 
-
-// export const emailLogin = (email,password) => {
-//
-//   return async (dispatch) => {
-//     let token = await AsyncStorage.getItem(asyncStorageConstants.EMAIL_TOKEN)
-//     if (token) {
-//       //dispatch Google login is already done
-//     } else {
-//       // login process
-//     }
-//   }
-// }
-
 const doEmailLogin = async (email,password,dispatch) => {
 
   try {
@@ -174,6 +169,7 @@ const doEmailLogin = async (email,password,dispatch) => {
 
 }
 
-export const dispatchLogOut = () => {
-  dispatch({ type: AUTH_LOG_OUT });
+
+export const dispatchLogOut = () => (dispatch) => {
+  dispatch({type: USER_LOGOUT})
 }
