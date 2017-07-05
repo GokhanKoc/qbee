@@ -14,8 +14,10 @@ import Card from '../components/Card'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
+
 //Firebase Related
 import * as firebase from 'firebase';
+import { _ } from 'lodash';
 
 class HomeScreen extends Component {
 
@@ -34,12 +36,15 @@ class HomeScreen extends Component {
       // For example for Istanbul only istanbul related cards
       var ref = this.firebaseDatabase.ref('cards/');
       ref.once('value', cardsSnapshot => {
+
         cardsSnapshot.forEach( childSnapshot => {
 
           var child = childSnapshot.val();
           // if (child.user != this.props.auth.uid ) {
           //   cards.push(child);
           // }
+          child = Object.assign({child},{key: childSnapshot.key})
+          //cards[childSnapshot.key]=child;
           cards.push(child);
         });
         this.props.initCards(cards);
@@ -77,26 +82,22 @@ class HomeScreen extends Component {
 
     renderCards() {
 
+      if(!_.isEmpty(this.props.cards)) {
+        return this.props.cards.map((item, i) => {
 
-      console.log(this.props.cards);
-      return this.props.cards.map((item, i) => {
-
-        return (
-          <Card
-            key={item}
-            card={this.props.cards[item]}
-          >
-          </Card>
-        );
-      }).reverse();
+          console.log(item);
+          return (
+            <Card
+              key={item.key}
+              card={item.child}
+              cardKey={item.key}
+            >
+            </Card>
+          );
+        }).reverse();
+      }
     }
 
-
-    // {Object.keys(this.props.cards).map((item, i) => {
-    //   return (
-    //     <Card key={item} cardKey={item} navigator={this.props.navigator} card={this.props.cards[item]}/>
-    //   );
-    // })}
 
     render() {
         return (
@@ -104,6 +105,7 @@ class HomeScreen extends Component {
 
               <ScrollView style={styles.scrollView}>
                 <View style={styles.cardsList}>
+                  { this.renderCards()}
                 </View>
               </ScrollView>
               <TouchableOpacity onPress={ () => this.props.navigation.navigate('itemSale') } style={styles.sellButton}>
