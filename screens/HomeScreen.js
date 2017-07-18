@@ -15,8 +15,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 
-//Firebase Related
-import * as firebase from 'firebase';
+// FIREBASE RELATED ITEMS
+import firebase from '../components/Firebase';
 import { _ } from 'lodash';
 
 class HomeScreen extends Component {
@@ -52,31 +52,6 @@ class HomeScreen extends Component {
       errorObject => {
            console.log("Card Loading Failed: The read failed: " + errorObject.code);
       })
-
-      this.checkChatsCards();
-    }
-
-
-    checkChatsCards(){
-        var userChats = this.props.auth.chats;
-        if(!userChats) return;
-        for(var cardKey in userChats){
-            this.firebaseDatabase.ref('cards/').child(cardKey).once('value', (card) => {
-                    if(!card.val()){
-                        this.firebaseDatabase.ref('users').child(this.props.auth.uid)
-                            .child('chats')
-                            .child(cardKey)
-                            .remove();
-                    }
-                })
-        }
-    }
-
-
-    updateCard(snapshot, prevKey){
-        var card = {};
-        card[snapshot.key] = snapshot.val();
-        this.props.addCard(card);
     }
 
 
@@ -85,12 +60,12 @@ class HomeScreen extends Component {
       if(!_.isEmpty(this.props.cards)) {
         return this.props.cards.map((item, i) => {
 
-          console.log(item);
           return (
             <Card
               key={item.key}
               card={item.child}
               cardKey={item.key}
+              navigator={this.props.navigation}
             >
             </Card>
           );
@@ -144,25 +119,6 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         backgroundColor: '#F5FCFF'
     },
-    bottom: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#FFCCCC',
-        justifyContent: 'center',
-        alignItems: 'stretch'
-    },
-    product: {
-        flex: 1,
-        margin: 5,
-        backgroundColor: "red"
-    },
-    row: {
-        height: 150,
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: 'stretch'
-    },
     sellButton: {
         flex: 1,
         alignItems: "center",
@@ -177,29 +133,10 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderColor: "#FFFFFF"
     },
-    iWantButton: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        position: "absolute",
-        height: 60,
-        width: 60,
-        left: Dimensions.get('window').width / 2 - 30 + 62,
-        top: Dimensions.get('window').height / 2 - 30 - 25 - platformOffset,
-        backgroundColor: "#2196F3",
-        borderRadius: 35,
-        borderWidth: 5,
-        borderColor: "#FFFFFF"
-    },
     sellText: {
         color: '#FFFFFf',
         fontWeight: 'bold',
         fontSize: 20
-    },
-    iWantText: {
-        color: '#FFFFFf',
-        fontWeight: 'bold',
-        fontSize: 15
     },
     cardsList: {
         flexDirection: 'row',

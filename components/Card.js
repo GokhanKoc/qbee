@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 var moment = require('moment');
+import { Card, Button } from 'react-native-elements'
 
 export default class extends Component {
 
@@ -18,11 +19,12 @@ export default class extends Component {
       super(props);
   }
 
-    onPress(){
-        this.props.navigator.push({name: 'card-view', card: this.props.card, key: this.props.cardKey})
-    }
+      onPress = () => {
 
-    getInfoLabel(){
+          this.props.navigator.navigate('card', {card: this.props.card, key: this.props.cardKey});
+      }
+
+    getInfoLabel = () => {
         // var today = moment();
         // var dueDate = moment(this.props.card.dueDate, 'X');
         // var hoursLeft = dueDate.diff(today, 'hours');
@@ -32,18 +34,37 @@ export default class extends Component {
     }
 
     render(){
+
         return (
-            <TouchableOpacity onPress={this.onPress.bind(this)} style={styles.container}>
-              {/* <Image style={styles.backgroundImage}
+
+          // <Button
+          //   backgroundColor='#03A9F4'
+          //   buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+          //   style={styles.container}>
+          //   <Card
+          //     title='HELLO WORLD'
+          //     image={{uri: this.props.card.cardPhoto}}>
+          //     <Text style={{marginBottom: 10}}>
+          //       The idea with React Native Elements is more about component structure than actual design.
+          //     </Text>
+          //   </Card>
+          // </Button>
+
+
+
+            <TouchableOpacity onPress={this.onPress} style={styles.container}>
+              <Image style={styles.backgroundImage}
                 source={{uri: this.props.card.cardPhoto}}>
-              </Image> */}
+              </Image>
               <View style={styles.infoLabel}>
                 <View style={styles.warningLabel}>
-                  {this.getInfoLabel.bind(this)()}
+                  {this.getInfoLabel}
                 </View>
                 <Text style={styles.priceText}>{this.props.card.price}$</Text>
               </View>
             </TouchableOpacity>
+
+
         );
     }
 }

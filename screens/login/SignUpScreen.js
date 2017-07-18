@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { SocialIcon, Button } from 'react-native-elements';
 import {
   View,
   Text,
@@ -11,12 +12,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../../actions'
 
-import { AsyncStorage } from 'react-native';
-import * as asyncStorageConstants from '../../constants/asyncStorageConstants'
-
-import * as firebase from 'firebase';
-
-import { SocialIcon, Button } from 'react-native-elements';
+// FIREBASE RELATED ITEMS
+import firebase from '../../components/Firebase';
 
 
 class SignUpScreen extends Component {
@@ -24,9 +21,7 @@ class SignUpScreen extends Component {
 
   facebookLogin = () => {
 
-    var user = firebase.auth().currentUser;
-
-    if (user) {
+    if (firebase.auth().currentUser) {
         // User is signed in.
         console.log("ALREADY LOGGEDIN");
         this.props.navigation.navigate('home');
@@ -43,15 +38,14 @@ class SignUpScreen extends Component {
   //TODO Google login halledilmeli
   googleLogin = async () => {
 
-    // Eger AuthData varsa kullanıcı zaten loggedIn durumda demektir.
-    let authData = await AsyncStorage.getItem(asyncStorageConstants.AUTH_DATA)
-
-    if (!authData) {
-      // GOOGLE LOGIN
-      console.log("GOOGLE LOGIN");
-      this.props.googleLogin();
+    if (firebase.auth().currentUser) {
+        // User is signed in.
+        console.log("ALREADY LOGGEDIN");
+        this.props.navigation.navigate('home');
     } else {
-      console.log("ALREADY LOGGEDIN");
+        // No user is signed in.
+        console.log("GOOGLE LOGIN");
+        this.props.googleLogin();
     }
 
   }
@@ -65,13 +59,10 @@ class SignUpScreen extends Component {
 
 
   loginWithEmail = () => {
-    // LOGIN WITH EMAIL
-    var user = firebase.auth().currentUser;
 
-    if (user) {
+    if (firebase.auth().currentUser) {
         // User is signed in.
         console.log("ALREADY LOGGEDIN");
-        console.log(user);
         this.props.navigation.navigate('home');
 
     } else {

@@ -12,20 +12,32 @@ import  {
     Dimensions,
     View
 } from 'react-native';
+import { ImagePicker, Location,Permissions } from 'expo';
+
+import DatePicker from 'react-native-datepicker'
 
 
-import * as firebase from 'firebase';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../actions'
 
-export default class ItemSaleScreen extends Component {
+// FIREBASE RELATED ITEMS
+import firebase from '../components/Firebase';
+
+
+
+
+class ItemSaleScreen extends Component {
 
   firebaseDatabase = firebase.database();
 
     constructor(props){
         super(props);
+        var now = new Date();
+
         if(this.props.card){
             this.state = this.props.card;
-            this.state.dueDateInterval = 'days';
-            this.state.dueDateCount = null;
+            this.state.dueDateTime = null;
         } else {
             this.state = {
                 currentGeo : null,
@@ -38,23 +50,40 @@ export default class ItemSaleScreen extends Component {
                 description: null,
                 price: null,
                 type: 'Sell',
-                dueDateCount: 72,
-                dueDateInterval: 'days',
-                dueDate: null
+                dueDateTime: now,
             }
         }
 
     }
 
+    getCurrentLocation = async () => {
+      const {status} = await Permissions.askAsync(Permissions.LOCATION);
+      if (status === 'granted') {
+        Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((position) => {
+          console.log(position)
+          this.setState({cardCoordinates: position.coords });
+          }).catch((e) => {
+           // this one is firing the error instantly
+            alert(e + ' Please make sure your location (GPS) is turned on.');
+          });
 
-    getCurrentLocation(){
-    }
-
-    pickLocation(data) {
+      } else {
+        throw new Error('Location permission not granted');
+      }
     }
 
     pickPhoto = async () => {
-    };
+
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+
+      if (!result.cancelled) {
+        this.setState({cardPhoto: result.uri });
+      }
+
+    }
 
     descriptionChange = (description) => {
         this.setState({description});
@@ -72,20 +101,49 @@ export default class ItemSaleScreen extends Component {
         this.setState({shippingDate});
     }
 
-    setDueDateCount = (dueDateCount) => {
-        this.setState({dueDateCount})
-    }
 
     validateCardForm = () => {
-        return true;
+      var card = this.state;
+      if(!card.description) {
+          alert('Please fill in the description');
+          return false;
+      }
+      if(!card.price) {
+          alert('Please fill in the price');
+          return false;
+      } else {
+          if(isNaN(+card.price)){
+              alert('Please select numeric price');
+              return false;
+          }
+      }
+      if(!card.itemsCount) {
+          alert('Please select items count');
+          return false;
+      } else {
+          if(isNaN(+card.itemsCount)){
+              alert('Please select numeric items count');
+              return false;
+          }
+      }
+      if(!card.cardPhoto) {
+           alert('Please add photo');
+           return false;
+       }
+        if(!card.dueDateTime) {
+           alert('Due Date Error');
+            return false;
+        }
+      return true;
     }
 
     submitCard = () => {
       var card = this.state;
+
       if(this.validateCardForm){
           card.itemsCount = +card.itemsCount;
           card.price = +card.price;
-          card.user = "Gokhan";
+          card.user = this.props.auth.uid;
           var newCard = {};
           if(this.props.cardKey){
               this.firebaseDatabase.ref('cards/').child(this.props.cardKey).set(card);
@@ -111,7 +169,21 @@ export default class ItemSaleScreen extends Component {
         <ScrollView style={styles.scrollView}>
           <View style={styles.mainContainer}>
             <View style={styles.formContainer}>
-              <Text style={styles.from}> Last Day: {this.state.dueDate}</Text>
+
+              <Text style={styles.from}>
+                Last Day:
+              </Text>
+              <DatePicker
+                style={{width: 200}}
+                date={this.state.dueDateTime}
+                mode="datetime"
+                format="YYYY-MM-DD HH:mm"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                showIcon={false}
+                onDateChange={(dueDateTime) => {this.setState({dueDateTime: dueDateTime});}}
+              />
+
 
               <View style={styles.descriptionInputWrapper}>
                 <TextInput style={styles.description}
@@ -139,9 +211,9 @@ export default class ItemSaleScreen extends Component {
                   underlineColorAndroid="rgba(0, 0, 0, 0)"
                   placeholder="Items count"/>
               </View>
-              <Text style={styles.cardOwner}>by Gokhan Koc </Text>
-              <Text style={styles.from}>From City: Ankara</Text>
-              <Text style={styles.from}>To City: new york</Text>
+              <Text style={styles.cardOwner}>by {this.props.auth.displayName} </Text>
+              <Text style={styles.from}>From City: </Text>
+              <Text style={styles.from}>To City: </Text>
             </View>
             <View style={styles.buttonGroup}>
               <TouchableOpacity onPress={this.getCurrentLocation} style={styles.Button}>
@@ -154,7 +226,7 @@ export default class ItemSaleScreen extends Component {
             <View style={styles.containerCenter}>
               <TouchableOpacity onPress={this.submitCard} style={[styles.submitButton, this.props.type === 'sell' ? styles.sellButtonColor : styles.requestButtonColor]}>
                 <Text style={styles.text}>
-                  {this.props.type}
+                  {this.state.type}
                 </Text>
               </TouchableOpacity>
               {this.getDeleteButton}
@@ -164,6 +236,18 @@ export default class ItemSaleScreen extends Component {
         );
     }
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemSaleScreen);
 
 const styles = StyleSheet.create({
     scrollView: {
@@ -274,11 +358,6 @@ const styles = StyleSheet.create({
         alignItems: "stretch",
         justifyContent: "center",
         flexDirection: 'row'
-    },
-    dueDateCount: {
-        flex: 1,
-        height: 50,
-        fontSize: 20
     },
     submitButton: {
         alignItems: "center",
