@@ -59,15 +59,16 @@ class CardScreen extends Component {
         console.log("USER" + user)
         if(this.state.card.user === this.props.auth.uid) {
 
+            console.log("FIRST NAME");
             this.setState({
-                userName: this.props.auth.firstName + this.props.auth.lastName,
+                userName: this.props.auth.displayName,
                 avatar: this.props.auth.avatar
             })
         } else {
 
           this.firebaseDatabase.ref('users/').child(this.state.card.user).once('value', snapshot => {
             this.setState({
-                userName: user.firstName + ' ' + user.lastName,
+                userName: user.displayName,
                 avatar: user.avatar,
                 paypal: user.paypal
             })
@@ -152,7 +153,7 @@ class CardScreen extends Component {
                   <Text style={styles.price}>{this.state.card.price}$</Text>
                   <View style={styles.row}>
                     <Text style={styles.itemsCount}>{this.state.card.itemsCount} left. </Text>
-                    <Text style={styles.paymentDueDate}>Expires {moment(this.state.card.dueDate, 'X').fromNow()}</Text>
+                    <Text style={styles.paymentDueDate}>Expires {moment(this.state.card.dueDateTime, "YYYY-MM-DD HH:mm").fromNow()}</Text>
                   </View>
                   <View style={styles.flexRow}>
                     <View style={styles.avatarCol}>
@@ -173,7 +174,7 @@ class CardScreen extends Component {
                         Description: {this.state.card.description}
                       </Text>
                       <Text style={styles.seller}>
-                        {this.state.card.type === 'request' ? 'Request by' : 'By'} {this.state.email}
+                        {this.state.card.type === 'request' ? 'Request by' : 'By'} {this.state.userName}
                       </Text>
                     </View>
                   </View>

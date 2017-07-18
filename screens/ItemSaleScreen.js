@@ -201,7 +201,7 @@ class ItemSaleScreen extends Component {
                   value={this.state.price ? '' + this.state.price : ''}
                   onChangeText={this.priceChange}
                   keyboardType="numeric"
-                  placeholder="Price"/>
+                placeholder="Price"/>
               </View>
               <View style={styles.inputWrapper}>
                 <TextInput style={styles.itemsCount}
@@ -209,11 +209,10 @@ class ItemSaleScreen extends Component {
                   onChangeText={this.onCountChange}
                   keyboardType="numeric"
                   underlineColorAndroid="rgba(0, 0, 0, 0)"
-                  placeholder="Items count"/>
+                placeholder="Items count"/>
               </View>
               <Text style={styles.cardOwner}>by {this.props.auth.displayName} </Text>
-              <Text style={styles.from}>From City: </Text>
-              <Text style={styles.from}>To City: </Text>
+              
             </View>
             <View style={styles.buttonGroup}>
               <TouchableOpacity onPress={this.getCurrentLocation} style={styles.Button}>

@@ -7,12 +7,22 @@ import {
     Dimensions,
     ScrollView,
     Platform,
-    View
+    View,
+    Image
 } from 'react-native';
 
 
 export default class SettingsScreen extends Component {
 
+  static navigationOptions = {
+    title: 'Settings',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('../images/iconset_burger.png')}
+        style={[styles.burger, {tintColor: tintColor}]}
+      />
+    )
+  }
 
     render() {
         return (
@@ -28,3 +38,20 @@ export default class SettingsScreen extends Component {
     }
 
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 0, left: 0, right: 0,
+        height: 50
+    },
+    burger: {
+        width: 40,
+        height: 40
+    }
+});

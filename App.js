@@ -5,11 +5,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { MainNavigator } from './components/Navigator';
 
-//Firebase Related
-// import * as firebase from 'firebase';
-// import firebaseConfig from './constants/firebaseConstants';
-// const firebaseApp = firebase.initializeApp(firebaseConfig);
-
 export default class App extends React.Component {
   render() {
 

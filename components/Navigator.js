@@ -25,8 +25,8 @@ export const MainNavigator = TabNavigator ({
   main: {
       screen: TabNavigator({
         home: { screen: HomeScreen },
-        settings: { screen: SettingsScreen },
-        chatList: { screen: ChatListScreen }
+        chatList: { screen: ChatListScreen },
+        settings: { screen: SettingsScreen }
       }, {
         tabBarPosition: 'bottom',
         tabBarOptions: {

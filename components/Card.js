@@ -25,11 +25,20 @@ export default class extends Component {
       }
 
     getInfoLabel = () => {
-        // var today = moment();
-        // var dueDate = moment(this.props.card.dueDate, 'X');
-        // var hoursLeft = dueDate.diff(today, 'hours');
-        // if(hoursLeft < 24) return <Text style={styles.warningText}>Last Day</Text>;
-        // if(this.props.card.itemsCount === 1) return <Text style={styles.warningText}>Last Item!</Text>;
+         var today = moment();
+         var dueDateTime = moment(this.props.card.dueDateTime, "YYYY-MM-DD HH:mm");
+         var hoursLeft = dueDateTime.diff(today, 'hours');
+         if(hoursLeft < 24) {
+            if(this.props.card.itemsCount === 1) {
+              return <Text style={styles.warningText}>Last Day & Last Item</Text>;
+            } else {
+              return <Text style={styles.warningText}>Last Day</Text>;
+            }
+         } else {
+           if(this.props.card.itemsCount === 1) {
+             return <Text style={styles.warningText}>Last Item!</Text>;
+           }
+         }
         return null;
     }
 
@@ -37,34 +46,17 @@ export default class extends Component {
 
         return (
 
-          // <Button
-          //   backgroundColor='#03A9F4'
-          //   buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          //   style={styles.container}>
-          //   <Card
-          //     title='HELLO WORLD'
-          //     image={{uri: this.props.card.cardPhoto}}>
-          //     <Text style={{marginBottom: 10}}>
-          //       The idea with React Native Elements is more about component structure than actual design.
-          //     </Text>
-          //   </Card>
-          // </Button>
-
-
-
             <TouchableOpacity onPress={this.onPress} style={styles.container}>
               <Image style={styles.backgroundImage}
                 source={{uri: this.props.card.cardPhoto}}>
               </Image>
               <View style={styles.infoLabel}>
                 <View style={styles.warningLabel}>
-                  {this.getInfoLabel}
+                  {this.getInfoLabel()}
                 </View>
                 <Text style={styles.priceText}>{this.props.card.price}$</Text>
               </View>
             </TouchableOpacity>
-
-
         );
     }
 }
@@ -90,12 +82,12 @@ const styles = StyleSheet.create({
     },
     priceText: {
         margin: 5,
-        fontSize: 15,
+        fontSize: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },
     warningText : {
-        fontSize: 15,
+        fontSize: 10,
         fontWeight: 'bold',
         color: 'white', margin: 5
     }

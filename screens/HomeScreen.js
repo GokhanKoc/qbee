@@ -7,9 +7,12 @@ import {
     Dimensions,
     ScrollView,
     Platform,
-    View
+    View,
+    Image
 } from 'react-native';
 import Card from '../components/Card'
+import { Icon } from 'react-native-elements';
+
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -22,6 +25,16 @@ import { _ } from 'lodash';
 class HomeScreen extends Component {
 
   firebaseDatabase = firebase.database();
+
+  static navigationOptions = {
+    title: 'Home',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('../images/iconset_dots.png')}
+        style={[styles.dots, {tintColor: tintColor}]}
+      />
+    )
+  }
 
     constructor(props){
         super(props);
@@ -142,5 +155,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         flexWrap: 'wrap'
+    },
+    dots: {
+        width: 40,
+        height: 40
     }
 });

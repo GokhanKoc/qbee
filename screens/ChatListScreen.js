@@ -5,9 +5,9 @@ import  {
     Text,
     TouchableOpacity,
     TextInput,
-    Image,
     ScrollView,
-    View
+    View,
+    Image
 } from 'react-native';
 var moment = require('moment');
 
@@ -21,6 +21,16 @@ import * as firebase from 'firebase';
 class ChatListScreen extends Component {
 
   firebaseDatabase = firebase.database();
+
+  static navigationOptions = {
+    title: 'Chats',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('../images/iconset_messages.png')}
+        style={[styles.messages, {tintColor: tintColor}]}
+      />
+    )
+  }
 
     constructor(props) {
         super(props);
@@ -156,12 +166,12 @@ class ChatListScreen extends Component {
                 {this.state.chats.map((chat, i) =>{
                   return <ChatRow
                     auth={this.props.auth}
-                            key={i}
-                            navigator={this.props.navigator}
-                            {...chat}
-                            />
-                    })}
-                    {!this.state.chats.length ? <Text style={styles.noContentText}>There are no active chats yet gokhhha.</Text> : null}
+                    key={i}
+                    navigator={this.props.navigator}
+                    {...chat}
+                         />
+                })}
+                {!this.state.chats.length ? <Text style={styles.noContentText}>There are no active chats yet </Text> : null}
                 </ScrollView>
             </View>
         );
@@ -218,6 +228,12 @@ const styles = StyleSheet.create({
     cardImage: {
         width: 60,
         height: 60
+    },
+    messages: {
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     messagesContainer: {
         flex: 1
