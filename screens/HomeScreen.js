@@ -41,8 +41,12 @@ class HomeScreen extends Component {
     }
 
     componentDidMount() {
+      this.getAllCards();
+    }
 
-      let cards = [];
+    getAllCards() {
+
+      var cards = [];
 
       // Find all cards
       // Only cards related to user locations
@@ -87,7 +91,12 @@ class HomeScreen extends Component {
     }
 
 
+    componentWillReceiveProps() {
+      this.getAllCards();
+    }
+
     render() {
+
         return (
             <View style={styles.container}>
 

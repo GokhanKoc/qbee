@@ -15,18 +15,6 @@ import {
 } from './types';
 
 
-/**
-Redux thunk sayesinde action fonksiyonlarını aşağıdaki gibi yazabiliriz.
-export const logout = (my_params) => (dispatch) => {
-  dispatch({type: ‘APP_LOGOUT_STARTED’});
-  // do your async stuff (ie: network calls)
-  // in some callback, you can keep dispatching:
-  dispatch({type: ‘APP_LOGOUT_ENDED’})
-}
-*/
-
-
-
 export const facebookLogin = () => async dispatch => {
     doFacebookLogin(dispatch);
 };
@@ -46,6 +34,12 @@ const doFacebookLogin = async dispatch => {
 
     // Sign in with credential from the Facebook user.
     firebase.auth().signInWithCredential(credential).then((user) => {
+
+      firebase.database().ref('users/').child(user.uid).update({
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL
+      })
 
       return dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: user });
 

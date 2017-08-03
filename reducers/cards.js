@@ -1,13 +1,17 @@
 import * as types from '../actions/types'
 
-export default function(state = {}, action = {}) {
+export default function(state = {}, action = {} ) {
     switch (action.type) {
         case types.INIT_CARDS:{
             return action.data
         }
         case types.ADD_CARD:{
-            var card = action.data;
-            return {...state, card }
+            //return Object.assign(state, card)
+            //newState = Object.assign({}, state);
+            //var card = action.data.card;
+            //var cardKey = action.data.key;
+            state[state.length] = action.data;
+            return state;
         }
         case types.DELETE_CARD:{
             var newState = {...state};

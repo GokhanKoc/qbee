@@ -40,13 +40,10 @@ class ItemSaleScreen extends Component {
             this.state.dueDateTime = null;
         } else {
             this.state = {
-                currentGeo : null,
-                countryCoordinates: null,
                 cardCoordinates: null,
                 cardPhoto: null,
                 shippingDate: null,
                 itemsCount: null,
-                offers: [],
                 description: null,
                 price: null,
                 type: 'Sell',
@@ -60,7 +57,7 @@ class ItemSaleScreen extends Component {
       const {status} = await Permissions.askAsync(Permissions.LOCATION);
       if (status === 'granted') {
         Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((position) => {
-          console.log(position)
+          console.log("POSITION"+position)
           this.setState({cardCoordinates: position.coords });
           }).catch((e) => {
            // this one is firing the error instantly
@@ -141,20 +138,19 @@ class ItemSaleScreen extends Component {
       var card = this.state;
 
       if(this.validateCardForm){
-          card.itemsCount = +card.itemsCount;
-          card.price = +card.price;
+
           card.user = this.props.auth.uid;
-          var newCard = {};
-          if(this.props.cardKey){
-              this.firebaseDatabase.ref('cards/').child(this.props.cardKey).set(card);
-              newCard[this.props.cardKey] = card;
-              this.props.addCard(newCard);
-          } else {
-              var newCardRef = this.firebaseDatabase.ref('cards/').push();
-              newCardRef.set(card);
-              this.firebaseDatabase.ref('users/').child("1234").child('cards').child(newCardRef.key).set(true);
-          }
-          this.props.navigation.navigate('home')
+          var newCardRef = this.firebaseDatabase.ref('cards/').push();
+          newCardRef.set(card);
+          this.firebaseDatabase.ref('users/').child(card.user).child('cards').child(newCardRef.key).set(true);
+
+
+          var cardData = {};
+          cardData = Object.assign({card},{key: newCardRef.key});
+          //cardData.push(card);
+
+          this.props.addCard(cardData);
+          this.props.navigation.navigate('home');
       }
     }
 
@@ -211,8 +207,8 @@ class ItemSaleScreen extends Component {
                   underlineColorAndroid="rgba(0, 0, 0, 0)"
                 placeholder="Items count"/>
               </View>
-              <Text style={styles.cardOwner}>by {this.props.auth.displayName} </Text>
-              
+              <Text style={styles.cardOwner}>by {this.props.auth.email} </Text>
+
             </View>
             <View style={styles.buttonGroup}>
               <TouchableOpacity onPress={this.getCurrentLocation} style={styles.Button}>
