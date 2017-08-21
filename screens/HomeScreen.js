@@ -92,7 +92,7 @@ class HomeScreen extends Component {
 
 
     componentWillReceiveProps() {
-      this.getAllCards();
+      //this.getAllCards();
     }
 
     render() {

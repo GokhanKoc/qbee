@@ -48,26 +48,51 @@ class ItemSaleScreen extends Component {
                 price: null,
                 type: 'Sell',
                 dueDateTime: now,
+                geocode: null
             }
         }
 
     }
 
     getCurrentLocation = async () => {
+      console.log("BURAYA GELDI");
       const {status} = await Permissions.askAsync(Permissions.LOCATION);
       if (status === 'granted') {
-        Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((position) => {
-          console.log("POSITION"+position)
-          this.setState({cardCoordinates: position.coords });
-          }).catch((e) => {
-           // this one is firing the error instantly
-            alert(e + ' Please make sure your location (GPS) is turned on.');
-          });
+
+        const  position  = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+        console.log("POSITION"+position);
+        this.setState({cardCoordinates: position.coords });
+
+        const geocode = await Location.reverseGeocodeAsync({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude });
+
+        this.setState({ geocode: geocode})
+
+
+
+        // Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((position) => {
+        //   console.log("POSITION"+position)
+        //   this.setState({cardCoordinates: position.coords });
+        //
+        //   Location.reverseGeocodeAsync({
+        //     latitude: position.coords.latitude,
+        //     longitude: position.coords.longitude }).then((geocode) => {
+        //       this.setstate({ geocode: geocode})
+        //     })
+        //
+        //   }).catch((e) => {
+        //    // this one is firing the error instantly
+        //     alert(e + ' Please make sure your location (GPS) is turned on.');
+        //   });
 
       } else {
         throw new Error('Location permission not granted');
       }
     }
+
+
+
 
     pickPhoto = async () => {
 
@@ -105,6 +130,11 @@ class ItemSaleScreen extends Component {
           alert('Please fill in the description');
           return false;
       }
+      if(!card.cardCoordinates) {
+          alert('Please fill in the cardCoordinates');
+          return false;
+      }
+
       if(!card.price) {
           alert('Please fill in the price');
           return false;
@@ -142,7 +172,7 @@ class ItemSaleScreen extends Component {
           card.user = this.props.auth.uid;
           var newCardRef = this.firebaseDatabase.ref('cards/').push();
           newCardRef.set(card);
-          this.firebaseDatabase.ref('users/').child(card.user).child('cards').child(newCardRef.key).set(true);
+          this.firebaseDatabase.ref('users/').child(card.user).child('cards/').child(newCardRef.key).set(true);
 
 
           var cardData = {};
@@ -151,6 +181,7 @@ class ItemSaleScreen extends Component {
 
           this.props.addCard(cardData);
           this.props.navigation.navigate('home');
+
       }
     }
 

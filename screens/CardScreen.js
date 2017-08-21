@@ -56,17 +56,17 @@ class CardScreen extends Component {
     componentDidMount(){
 
         var user = this.state.card.user
-        console.log("USER" + user)
-        if(this.state.card.user === this.props.auth.uid) {
 
-            console.log("FIRST NAME");
+        //TODO Card creater == login user
+        if(user === this.props.auth.uid) {
+
             this.setState({
                 userName: this.props.auth.displayName,
                 avatar: this.props.auth.avatar
             })
         } else {
 
-          this.firebaseDatabase.ref('users/').child(this.state.card.user).once('value', snapshot => {
+          this.firebaseDatabase.ref('users/').child(user).once('value', snapshot => {
             this.setState({
                 userName: user.displayName,
                 avatar: user.avatar,
@@ -124,7 +124,8 @@ class CardScreen extends Component {
             cardStyle = styles.editButton;
             buttonText = 'Edit';
             onPress = () => {
-                this.props.navigator.push({name: this.state.card.type, editCard: this.state.card, key: this.state.cardKey})
+
+              this.props.navigation.navigate('itemSale',{name: this.state.card.type, editCard: this.state.card, key: this.state.cardKey})
             };
         }
         return(
