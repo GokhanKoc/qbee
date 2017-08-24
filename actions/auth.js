@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import * as asyncStorageConstants from '../constants/asyncStorageConstants'
 import * as firebase from 'firebase';
-import { Facebook } from 'expo';
+import { Facebook, Google } from 'expo';
 
 
 import {
@@ -55,30 +55,58 @@ const doFacebookLogin = async dispatch => {
 };
 
 
-export const googleLogin = () => {
+export const googleLogin = () => async dispatch => {
+    doGoogleLogin(dispatch);
+};
 
-  return async (dispatch) => {
-    let token = await AsyncStorage.getItem(asyncStorageConstants.GOOGLE_TOKEN)
-    if (token) {
-      //dispatch Google login is already done
-      dispatch({ type: GOOGLE_LOGIN_SUCCESS, payload: token });
-    } else {
-      // startup Google login process
-      doFacebookLogin(dispatch);
-    }
-  }
-}
 
 const doGoogleLogin = async dispatch => {
 
+  try {
 
-  if (type === 'cancel') {
+    const result = await Google.logInAsync({
+           androidClientId: '672453373918-7p5q8m628oiqmqjlg1k60h9e9g5itf12.apps.googleusercontent.com',
+           iosClientId: '672453373918-vbbu7fk0ovu2vsn0pj54mkl2o9a0nj59.apps.googleusercontent.com',
+           scopes: ['profile', 'email'],
+         });
+
+    if (result.type != 'success') {
+      return dispatch({ type: GOOGLE_LOGIN_FAIL });
+    }
+
+
+    if (result.type === 'success') {
+      // Build Firebase credential with the Google access token.
+      const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken);
+
+      // Sign in with credential from the Google user.
+      let user = await firebase.auth().signInWithCredential(credential);
+
+      let userInfos= await firebase.database().ref('users/').child(user.uid).once('value');
+
+      if(!userInfos.val() && !userInfos.val().registered) {
+      //if(!checkUserIfRegister(user.uid)) {
+        firebase.database().ref('users/').child(user.uid).set({
+            registered: false,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+        })
+      }
+      return dispatch({ type: GOOGLE_LOGIN_SUCCESS, payload: user });
+
+    }
+
+
+
+  } catch(error) {
+    console.log(error);
     return dispatch({ type: GOOGLE_LOGIN_FAIL });
+
   }
 
-  await AsyncStorage.setItem(asyncStorageConstants.GOOGLE_TOKEN, token);
-  dispatch({ type: GOOGLE_LOGIN_SUCCESS, payload: token });
 }
+
 
 
 export const createAccountWithEmail = (email,password) => {

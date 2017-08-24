@@ -21,6 +21,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 
+import { NavigationActions } from 'react-navigation'
+
+
 // FIREBASE RELATED ITEMS
 import firebase from '../components/Firebase';
 
@@ -55,7 +58,7 @@ class ItemSaleScreen extends Component {
     }
 
     getCurrentLocation = async () => {
-      console.log("BURAYA GELDI");
+
       const {status} = await Permissions.askAsync(Permissions.LOCATION);
       if (status === 'granted') {
 
@@ -69,23 +72,6 @@ class ItemSaleScreen extends Component {
 
         this.setState({ geocode: geocode})
 
-
-
-        // Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((position) => {
-        //   console.log("POSITION"+position)
-        //   this.setState({cardCoordinates: position.coords });
-        //
-        //   Location.reverseGeocodeAsync({
-        //     latitude: position.coords.latitude,
-        //     longitude: position.coords.longitude }).then((geocode) => {
-        //       this.setstate({ geocode: geocode})
-        //     })
-        //
-        //   }).catch((e) => {
-        //    // this one is firing the error instantly
-        //     alert(e + ' Please make sure your location (GPS) is turned on.');
-        //   });
-
       } else {
         throw new Error('Location permission not granted');
       }
@@ -96,10 +82,27 @@ class ItemSaleScreen extends Component {
 
     pickPhoto = async () => {
 
+      //TODO resim nasıl yüklenecek çözülmesi gereken bir sorun
+
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],
+        base64: true
       });
+
+    //   // Create a root reference
+    //   var storageRef = firebase.storage().ref();
+     //
+    //   // Create a reference to user images
+    //   var userImagesRef = storageRef.child(this.props.auth.uid);
+     //
+    //  console.log(result.base64);
+     //
+    //   userImagesRef.putString(result.base64.substring(23), 'base64').then(() => {
+    //     console.log('Uploaded a blob or file!');
+    //   });
+
+
 
       if (!result.cancelled) {
         this.setState({cardPhoto: result.uri });
@@ -174,13 +177,12 @@ class ItemSaleScreen extends Component {
           newCardRef.set(card);
           this.firebaseDatabase.ref('users/').child(card.user).child('cards/').child(newCardRef.key).set(true);
 
-
           var cardData = {};
-          cardData = Object.assign({card},{key: newCardRef.key});
+          cardData = Object.assign({child: card},{key: newCardRef.key});
           //cardData.push(card);
 
           this.props.addCard(cardData);
-          this.props.navigation.navigate('home');
+          this.props.navigation.navigate('home', {key: "home"});
 
       }
     }
