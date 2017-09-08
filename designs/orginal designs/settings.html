@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>qbee</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Oxygen:400,700,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <link rel=stylesheet href="style/style.css">
+  <link rel=stylesheet href="fonts/style.css">
+
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+</head>
+<body>
+
+<script>
+$( document ).ready(function() {
+  $( ".-changePasswordButton" ).click(function() {
+    $( ".-changePassword" ).toggle();
+  });
+  $( ".-supportButton" ).click(function() {
+    $( ".-support" ).toggle();
+  });
+});
+</script>
+
+<div class="navigation">
+  <a href="main.html"><span class="qb-dots -selected"></span></a>
+  <a href="itemMessagesList.html"><span class="qb-messages"><p>5</p></span></a>
+  <a href="settings.html"><span class="qb-burger"></span></a>
+</div>
+
+
+
+<div class="content">
+
+  <div class="cardView -profile">
+    <div class="profile">
+      <span class="profilePicEdit qb-pencil"></span>
+      <!-- <div class="profilePicAdd">+</div> -->
+      <div class="profilePic" style="background-image:url(./ui/user-elon-big.jpg);"></div>
+      <div class="dropShadow">&nbsp;</div>
+      <div class="profileName">elon</div>
+      <div class="profileRating">
+        <span class="qb-star -earned"></span>
+        <span class="qb-star -earned"></span>
+        <span class="qb-star -earned"></span>
+        <span class="qb-star -earned"></span>
+        <span class="qb-star"></span>
+      </div>
+      <div class="ratingInfo">in 100 items</div>
+    </div>
+    <ul class="profileOptions">
+      <li class="option">my current items</li>
+      <li class="option -changePasswordButton">
+        change password
+        <ul class="inlineWindow -changePassword">
+          <li class="error">error message here!</li>
+          <li><input placeholder="current password"></li>
+          <li><input placeholder="new password"></li>
+          <li><input placeholder="new password 2"></li>
+          <li><button>change</button></li>
+        </ul>
+      </li>
+
+      <li class="option">logout</li>
+      <li class="option -supportButton">
+        support
+        <ul class="inlineWindow -support">
+          <li class="error">error message here!</li>
+          <li class="success">success message here!</li>
+          <li><textarea placeholder="what seems to be the problem ?"></textarea></li>
+          <li><button>submit</button></li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+
+
+
+</div>
+
+</body>
+</html>

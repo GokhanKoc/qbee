@@ -23,4 +23,4 @@ export const UPDATE_CARD = 'UPDATE_CARD'
 //chat
 export const INIT_CHAT = 'INIT_CHAT'
 export const CLEAR_CHAT = 'CLEAR_CHAT'
-export const ADD_MESSAGE = 'ADD_MESSAGE'
+export const ADD_CHAT_MESSAGE = 'ADD_CHAT_MESSAGE'

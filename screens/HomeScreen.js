@@ -10,7 +10,7 @@ import {
     View,
     Image
 } from 'react-native';
-import Card from '../components/Card'
+import SmallCard from '../components/SmallCard'
 import { Icon } from 'react-native-elements';
 
 
@@ -57,12 +57,13 @@ class HomeScreen extends Component {
         cardsSnapshot.forEach( childSnapshot => {
 
           var child = childSnapshot.val();
-          // if (child.user != this.props.auth.uid ) {
-          //   cards.push(child);
-          // }
-          child = Object.assign({child},{key: childSnapshot.key})
-          //cards[childSnapshot.key]=child;
-          cards.push(child);
+          if (child.user != this.props.auth.uid ) {
+            //   cards.push(child);
+            child = Object.assign({child},{key: childSnapshot.key})
+            //cards[childSnapshot.key]=child;
+            cards.push(child);
+          }
+
         });
         this.props.initCards(cards);
       },
@@ -78,13 +79,13 @@ class HomeScreen extends Component {
         return this.props.cards.map((item, i) => {
 
           return (
-            <Card
+            <SmallCard
               key={item.key}
               card={item.child}
               cardKey={item.key}
               navigator={this.props.navigation}
             >
-            </Card>
+            </SmallCard>
           );
         }).reverse();
       }

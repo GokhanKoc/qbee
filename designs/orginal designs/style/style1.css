@@ -1,0 +1,432 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em; }
+
+ol, ul, li, p {
+  list-style: none;
+  padding: 0px;
+  margin: 0px; }
+
+div, span, ul, li, p {
+  box-sizing: border-box; }
+
+a {
+  text-decoration: none; }
+
+input, button, textarea, select {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  resize: none; }
+
+input, button, textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; }
+
+.navigation {
+  position: fixed;
+  bottom: 0px;
+  height: 70px;
+  width: 100%;
+  background-color: white; }
+  .navigation span {
+    position: relative;
+    float: left;
+    width: 33.333%;
+    text-align: center;
+    line-height: 70px;
+    font-size: 40px; }
+    .navigation span p {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      font-size: 18px;
+      font-family: 'Montserrat'; }
+  .navigation .-selected {
+    color: #29ABE2; }
+
+.topNavigation {
+  position: fixed;
+  top: 0px;
+  height: 50px;
+  width: 80%;
+  margin: 10px 10%; }
+
+.content {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 70px;
+  left: 0px; }
+
+.profilePic {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 40px; }
+
+.actionBack {
+  height: 30px;
+  width: 30px;
+  border-radius: 40px;
+  text-align: center;
+  line-height: 30px;
+  border: 2px solid #29ABE2;
+  color: #29ABE2; }
+
+.cardView {
+  position: relative;
+  float: left;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%; }
+  .cardView .item {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0px 30px 45px -40px black;
+    overflow: hidden;
+    overflow-y: auto; }
+    .cardView .item .-flipBack {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      color: black;
+      font-size: 32px;
+      height: 58px;
+      width: 60px;
+      text-align: center;
+      line-height: 58px; }
+    .cardView .item .-flipFront {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      z-index: 20;
+      width: 40px;
+      text-align: center;
+      line-height: 40px;
+      margin-left: -20px;
+      font-size: 32px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 100px;
+      color: black; }
+    .cardView .itemImage {
+      position: relative;
+      top: 0px;
+      right: 0px;
+      left: 0px;
+      height: 60%;
+      width: 100%;
+      display: inline-block;
+      float: left;
+      background-color: #eee;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover; }
+    .cardView .itemAction, .cardView .itemPrice, .cardView .itemTiming, .cardView .itemInfo {
+      position: relative;
+      float: left;
+      width: 100%;
+      text-align: center; }
+    .cardView .itemAction {
+      margin-top: -30px; }
+    .cardView .itemPrice {
+      font-size: 21px; }
+    .cardView .itemTiming p {
+      position: relative;
+      width: 50%;
+      float: left;
+      text-align: left;
+      padding: 0px 5px; }
+    .cardView .itemTiming p:first-of-type {
+      text-align: right;
+      font-weight: bold; }
+    .cardView .itemAction .-buy {
+      position: relative;
+      margin: auto;
+      background-color: #8CC63F;
+      border: 3px solid white;
+      border-radius: 60px;
+      line-height: 54px;
+      color: white;
+      height: 60px;
+      width: 60px; }
+      .cardView .itemAction .-buy a {
+        color: white; }
+    .cardView .itemInfo {
+      display: inline-block;
+      text-align: left;
+      margin-top: 10px;
+      padding: 10px; }
+      .cardView .itemInfo .profileAction {
+        position: absolute;
+        top: -40px;
+        left: 20px;
+        color: #29ABE2;
+        font-size: 40px; }
+      .cardView .itemInfo .profilePic {
+        position: absolute;
+        top: 0px;
+        left: 20px; }
+      .cardView .itemInfo .info {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        bottom: 0px;
+        left: 70px;
+        font-size: .8rem; }
+        .cardView .itemInfo .info .desc {
+          max-height: 48px;
+          line-height: 16px;
+          overflow: hidden; }
+        .cardView .itemInfo .info .by, .cardView .itemInfo .info .from {
+          font-weight: bold; }
+    .cardView .item .listView {
+      position: relative;
+      float: left;
+      width: 100%; }
+      .cardView .item .listView li {
+        position: relative;
+        float: left;
+        width: 100%;
+        margin: 5px 0px; }
+      .cardView .item .listView .itemSummary {
+        border-bottom: 2px solid #ccc;
+        background-color: white;
+        height: 60px; }
+        .cardView .item .listView .itemSummary .indicator {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          height: 100%;
+          width: 10px;
+          background-color: #29ABE2;
+          z-index: 55; }
+        .cardView .item .listView .itemSummary .itemImage {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          height: 60px;
+          width: 60px; }
+        .cardView .item .listView .itemSummary .desc {
+          position: absolute;
+          top: 0px;
+          right: 40px;
+          left: 65px;
+          font-size: 12px;
+          max-height: 58px;
+          line-height: 19px;
+          overflow: hidden; }
+          .cardView .item .listView .itemSummary .desc a {
+            color: black; }
+        .cardView .item .listView .itemSummary .qb-arrow-right {
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          color: #29ABE2;
+          font-size: 40px;
+          line-height: 60px; }
+    .cardView .item .messages {
+      position: relative;
+      float: left;
+      width: 100%; }
+      .cardView .item .messages li {
+        position: relative;
+        float: left;
+        width: 100%; }
+      .cardView .item .messages .itemSummary:after {
+        content: "";
+        position: absolute;
+        bottom: -18px;
+        left: 60px;
+        height: 0px;
+        width: 0px;
+        border-style: solid;
+        border-width: 17px 17px 0 0;
+        border-color: #ccc transparent transparent transparent; }
+      .cardView .item .messages .itemSummary {
+        position: fixed;
+        border-bottom: 2px solid #ccc;
+        height: 60px;
+        width: 96%;
+        margin: 10px 2%;
+        z-index: 55;
+        background-color: white; }
+        .cardView .item .messages .itemSummary .itemImage {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          height: 60px;
+          width: 60px; }
+        .cardView .item .messages .itemSummary .desc {
+          position: absolute;
+          top: 0px;
+          right: 60px;
+          left: 65px;
+          font-size: 12px;
+          max-height: 58px;
+          line-height: 19px;
+          overflow: hidden; }
+          .cardView .item .messages .itemSummary .desc a {
+            color: black; }
+      .cardView .item .messages .userProfile {
+        position: fixed;
+        top: 60px;
+        width: 96%;
+        margin: 10px 2%;
+        z-index: 50;
+        background-color: white; }
+        .cardView .item .messages .userProfile .profilePic {
+          position: relative;
+          float: left;
+          margin: 10px; }
+        .cardView .item .messages .userProfile .profileName {
+          position: relative;
+          float: left;
+          height: 60px;
+          line-height: 60px; }
+        .cardView .item .messages .userProfile .profileRating {
+          position: absolute;
+          top: 40px;
+          right: 10px;
+          left: 60px;
+          font-size: 10px;
+          color: #ccc; }
+          .cardView .item .messages .userProfile .profileRating .-earned {
+            color: #FFC107; }
+          .cardView .item .messages .userProfile .profileRating .qb-star {
+            position: relative;
+            float: left; }
+      .cardView .item .messages .correspondence {
+        position: relative;
+        float: left;
+        width: 100%;
+        margin-top: 130px; }
+        .cardView .item .messages .correspondence .incoming, .cardView .item .messages .correspondence .outgoing {
+          color: black;
+          width: 96%;
+          margin: 10px 2%;
+          font-size: 12px;
+          padding: 10px;
+          font-weight: normal; }
+        .cardView .item .messages .correspondence .incoming:after, .cardView .item .messages .correspondence .outgoing:after {
+          content: "";
+          height: 0px;
+          width: 0px;
+          border-style: solid; }
+        .cardView .item .messages .correspondence .incoming:after {
+          position: absolute;
+          bottom: -15px;
+          left: 20px;
+          border-width: 15px 15px 0 0;
+          border-color: #CCCCCC transparent transparent transparent; }
+        .cardView .item .messages .correspondence .outgoing:after {
+          position: absolute;
+          right: 20px;
+          bottom: -15px;
+          border-width: 0 15px 15px 0;
+          border-color: transparent #29ABE2 transparent transparent; }
+        .cardView .item .messages .correspondence .incoming {
+          background-color: #CCCCCC; }
+        .cardView .item .messages .correspondence .outgoing {
+          background-color: #29ABE2; }
+
+.map {
+  position: relative;
+  width: 100%;
+  float: left;
+  height: 250px;
+  background: url(../ui/map-demo.jpg) center no-repeat;
+  background-size: cover; }
+
+.gridView {
+  position: relative;
+  float: left;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  box-shadow: 0px 30px 45px -40px black; }
+  .gridView .qb-filter {
+    left: 65px; }
+  .gridView .qb-search {
+    left: 20px; }
+  .gridView .mainIcon {
+    position: absolute;
+    top: 230px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    z-index: 20;
+    font-size: 30px;
+    color: #29ABE2;
+    background-color: white;
+    border-radius: 100px; }
+  .gridView .sell, .gridView .want {
+    position: absolute;
+    top: 215px;
+    left: 50%;
+    text-align: center;
+    color: white;
+    border: 5px solid white; }
+  .gridView .sell {
+    margin-left: -35px;
+    width: 70px;
+    height: 70px;
+    border-radius: 60px;
+    line-height: 60px;
+    background-color: #FF9800;
+    z-index: 10;
+    font-size: 20px; }
+  .gridView .want {
+    margin-top: 5px;
+    margin-left: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
+    line-height: 50px;
+    background-color: #2196F3;
+    z-index: 5;
+    font-size: 12px; }
+  .gridView .item:nth-child(even) {
+    margin: 1% 1% 1% 2%; }
+  .gridView .item:nth-child(odd) {
+    margin: 1% 2% 1% 1%; }
+  .gridView .item {
+    position: relative;
+    float: left;
+    height: 150px;
+    width: 47%;
+    background-color: #efefef; }
+    .gridView .item .info {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-family: 'Montserrat', sans-serif;
+      background: url(../ui/item-demo.jpg) center no-repeat; }
+      .gridView .item .info .price, .gridView .item .info .remarks {
+        position: relative;
+        float: right;
+        padding: 5px 10px;
+        font-size: 14px; }
+      .gridView .item .info .price {
+        background-color: white;
+        color: black; }
+      .gridView .item .info .remarks {
+        background-color: red;
+        color: white; }

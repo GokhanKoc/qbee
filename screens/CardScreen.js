@@ -57,7 +57,7 @@ class CardScreen extends Component {
 
         var user = this.state.card.user
 
-        //TODO Card creater == login user
+        // Card creater == login user
         if(user === this.props.auth.uid) {
 
             this.setState({
@@ -82,10 +82,7 @@ class CardScreen extends Component {
               <ChatListScreen
                 flip={this.flip}
                 getUserByUid={this.props.getUserByUid}
-                getCardByUid={this.props.getCardByUid}
                 card={this.state.card}
-                navigation={this.props.navigation}
-                auth={this.props.auth}
                 cardKey={this.state.cardKey} />
             </View>
                 );
@@ -93,13 +90,9 @@ class CardScreen extends Component {
             <View style={{backgroundColor: 'white', flex: 1, opacity: this.state.backSideOpacity}}>
               <Chat
                 onHeaderPress={this.flip}
-                auth={this.props.auth}
                 card={this.state.card}
                 cardKey={this.state.cardKey}
-                chatWith={this.props.auth.uid}
-                onHeadPress={this.flip}
-                getUserByUid={this.props.getUserByUid}
-                navigation={this.props.navigation}/>
+                getUserByUid={this.props.getUserByUid}/>
             </View>
         )
     }

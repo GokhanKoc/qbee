@@ -13,7 +13,6 @@ import {
 
 import ChatHeader from './ChatHeader';
 
-var RCTUIManager = require('NativeModules').UIManager;
 var moment = require('moment');
 import Avatar from './Avatar'
 
@@ -41,39 +40,29 @@ class ChatScreen extends Component {
     }
 
     componentDidMount(){
-        // var userNameUid = this.props.card.user === this.props.auth.uid ? this.props.chatWith : this.props.card.user;
-        // this.props.getUserByUid(userNameUid).then((user) => {
-        //     this.setState({
-        //         paypal: user.paypal,
-        //         userName: user.firstName + ' ' + user.lastName,
-        //         avatar: user.avatar
-        //     });
-        // });
-
-        console.log(this.props.cardKey);
-
 
         this.firebaseDatabase.ref('messages/')
             .child(this.props.cardKey)
-            .child(this.props.chatWith)
+            .child(this.props.auth.uid)
             .child('messages')
             .on('child_added', this.addMessage.bind(this));
+
         if (this.props.auth.uid === this.props.card.user){
             this.firebaseDatabase.ref('messages/')
                 .child(this.props.cardKey)
-                .child(this.props.chatWith)
+                .child(this.props.auth.uid)
                 .child('viewedByOwner')
                 .set(true);
         }
-        if (this.props.auth.uid === this.props.chatWith) {
+        if (this.props.auth.uid === this.props.auth.uid) {
             this.firebaseDatabase.ref('messages/')
                 .child(this.props.cardKey)
-                .child(this.props.chatWith)
+                .child(this.props.auth.uid)
                 .child('messages')
                 .once('value', chatSnapshot => {
                     if(chatSnapshot.val()) this.firebaseDatabase.ref('messages/')
                         .child(this.props.cardKey)
-                        .child(this.props.chatWith)
+                        .child(this.props.auth.uid)
                         .child('viewedByUser')
                         .set(true);
                 })
@@ -83,29 +72,30 @@ class ChatScreen extends Component {
     componentWillUnmount(){
         this.firebaseDatabase.ref('messages/')
             .child(this.props.cardKey)
-            .child(this.props.chatWith)
+            .child(this.props.auth.uid)
             .child('messages')
             .off();
         this.props.clearChat(this.props.cardKey);
     }
 
     addMessage(snapshot) {
+
+
         if (this.props.auth.uid === this.props.card.user){
             this.firebaseDatabase.ref('messages/')
                 .child(this.props.cardKey)
-                .child(this.props.chatWith)
+                .child(this.props.auth.uid)
                 .child('viewedByOwner')
                 .set(true);
-        }
-        if (this.props.auth.uid === this.props.chatWith) {
+        } else {
             this.firebaseDatabase.ref('messages/')
                 .child(this.props.cardKey)
-                .child(this.props.chatWith)
+                .child(this.props.auth.uid)
                 .child('viewedByUser')
                 .set(true);
         }
         if (snapshot.val().sender !== this.props.auth.uid){
-            this.firebaseDatabase.ref('messages/').child(this.props.cardKey).child(this.props.chatWith).child('messages').child(snapshot.key).child('viewed').set(true);
+            this.firebaseDatabase.ref('messages/').child(this.props.cardKey).child(this.props.auth.uid).child('messages').child(snapshot.key).child('viewed').set(true);
         }
         this.props.addMessage({
             cardKey: this.props.cardKey,
@@ -125,14 +115,14 @@ class ChatScreen extends Component {
             sender: this.props.auth.uid,
             viewed: false
         };
-        if (this.props.auth.uid === this.props.chatWith) {
-            this.firebaseDatabase.ref('messages/').child(this.props.cardKey).child(this.props.chatWith).child('viewedByOwner').set(false);
+        if (this.props.auth.uid === this.props.auth.uid) {
+            this.firebaseDatabase.ref('messages/').child(this.props.cardKey).child(this.props.auth.uid).child('viewedByOwner').set(false);
             this.firebaseDatabase.ref('users/').child(this.props.auth.uid).child('chats').child(this.props.cardKey).set(true);
         }
         if (this.props.auth.uid === this.props.card.user) {
-            this.firebaseDatabase.ref('messages/').child(this.props.cardKey).child(this.props.chatWith).child('viewedByUser').set(false);
+            this.firebaseDatabase.ref('messages/').child(this.props.cardKey).child(this.props.auth.uid).child('viewedByUser').set(false);
         }
-        this.firebaseDatabase.ref('messages/').child(this.props.cardKey).child(this.props.chatWith).child('messages').push(newMessage);
+        this.firebaseDatabase.ref('messages/').child(this.props.cardKey).child(this.props.auth.uid).child('messages').push(newMessage);
         this.setState({messageText: null});
     }
 

@@ -12,7 +12,7 @@ export default function(state = {}, action = {}) {
             delete newState[action.data];
             return newState;
         }
-        case types.ADD_MESSAGE:{
+        case types.ADD_CHAT_MESSAGE:{
             var message = action.data.message;
             var cardKey = action.data.cardKey;
             newState = {...state };

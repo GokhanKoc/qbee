@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'qbee';
+    src:
+        url('fonts/qbee.ttf?3ueqro') format('truetype'),
+        url('fonts/qbee.woff?3ueqro') format('woff'),
+        url('fonts/qbee.svg?3ueqro#qbee') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="qb-"], [class*=" qb-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'qbee' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.qb-warning:before {
+    content: "\e912";
+}
+.qb-facebook:before {
+    content: "\e90f";
+}
+.qb-googleplus:before {
+    content: "\e910";
+}
+.qb-twitter:before {
+    content: "\e911";
+}
+.qb-close:before {
+    content: "\e90e";
+}
+.qb-close-o:before {
+    content: "\e90c";
+}
+.qb-trash:before {
+    content: "\e90d";
+}
+.qb-flip-o:before {
+    content: "\e90a";
+}
+.qb-flip:before {
+    content: "\e90b";
+}
+.qb-filter:before {
+    content: "\e908";
+}
+.qb-search:before {
+    content: "\e909";
+}
+.qb-star:before {
+    content: "\e907";
+}
+.qb-arrow-left:before {
+    content: "\e906";
+}
+.qb-arrow-right:before {
+    content: "\e900";
+}
+.qb-asktoseller:before {
+    content: "\e901";
+}
+.qb-burger:before {
+    content: "\e902";
+}
+.qb-dots:before {
+    content: "\e903";
+}
+.qb-messages:before {
+    content: "\e904";
+}
+.qb-pencil:before {
+    content: "\e905";
+}
+

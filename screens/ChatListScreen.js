@@ -83,9 +83,6 @@ class ChatListScreen extends Component {
         snapshot.forEach((chatObj) => {
             var chats = this.state.chats;
 
-
-
-
             this.props.getUserByUid(chatObj.key).then((chatWith) => {
 
                 this.props.getCardByUid(cardKey).then((card) => {

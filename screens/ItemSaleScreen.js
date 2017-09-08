@@ -103,7 +103,6 @@ class ItemSaleScreen extends Component {
     //   });
 
 
-
       if (!result.cancelled) {
         this.setState({cardPhoto: result.uri });
       }
