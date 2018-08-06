@@ -1,0 +1,37 @@
+Arguments: 
+  /usr/local/Cellar/node/9.8.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js outdated
+
+PATH: 
+  /Applications/google-cloud-sdk/bin:/Users/apple/.rvm/gems/ruby-2.2.1/bin:/Users/apple/.rvm/gems/ruby-2.2.1@global/bin:/Users/apple/.rvm/rubies/ruby-2.2.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/google-cloud-sdk/bin:/Users/apple/.rvm/gems/ruby-2.2.1/bin:/Users/apple/.rvm/gems/ruby-2.2.1@global/bin:/Users/apple/.rvm/rubies/ruby-2.2.1/bin:/Users/apple/.rvm/bin:/Users/apple/.rvm/bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.8.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "functions",
+    "description": "Cloud Functions for Firebase",
+    "dependencies": {
+      "firebase-admin": "~4.2.1",
+      "firebase-functions": "^0.5.7"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: No lockfile in this directory. Run `yarn install` to generate one.
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:89389:13
+      at <anonymous>
