@@ -26,4 +26,12 @@ const store = configureStore();
 
 persistStore(store, { storage: AsyncStorage });
 
+persistStore(
+  store,
+  null,
+  ( ) => {
+     store.getState() 
+  }
+)
+
 export default store;
